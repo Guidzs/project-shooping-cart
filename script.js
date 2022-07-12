@@ -53,12 +53,12 @@ const sumTotalValor = () => {
 };
 
 const appendCardItens = async (item) => {
-  const cardItems = document.querySelector('.cart__items');
+  const cartItems = document.querySelector('.cart__items');
   const idItem = getSkuFromProductItem(item);
   const { id: sku, title: name, price: salePrice } = await fetchItem(idItem);
   const itemCart = createCartItemElement({ sku, name, salePrice });
-  saveCartItems(itemCart);
-  cardItems.appendChild(itemCart);
+  saveCartItems({ sku, name, salePrice });
+  cartItems.appendChild(itemCart);
   sumTotalValor();
 };
 
@@ -85,7 +85,20 @@ const appendItens = async () => {
   });
 };
 
+const addItemLocalOnCart = (item) => {
+  const cartItems = document.querySelector('.cart__items');
+  const itemCart = createCartItemElement(item);
+  cartItems.appendChild(itemCart);
+};
+
+const addCartItemsOfStorage = (idItem) => {
+  const storage = localStorage.getItem(idItem);
+  const storageObj = JSON.parse(storage);
+  storageObj.forEach((item) => addItemLocalOnCart(item));
+};
+
 window.onload = () => {
   appendItens();
   addEventButtonCart();
+  addCartItemsOfStorage('cartItems');
 };
