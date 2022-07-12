@@ -81,7 +81,7 @@ const appendItens = async () => {
 const addEventItemCard = () => {
   const items = document.querySelectorAll('.cart__item');
   items.forEach((item) => item.addEventListener('click', cartItemClickListener));
-}
+};
 
 const addCartItemsOfStorage = () => {
   const memoria = getSavedCartItems();
