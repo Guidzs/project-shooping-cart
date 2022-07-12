@@ -17,6 +17,8 @@ const createCustomElement = (element, className, innerText) => {
 const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').innerText;
 
 const emptyCart = () => {
+  const elements = document.querySelectorAll('.cart__item');
+
   elements.forEach((item) => item.parentNode.removeChild(item));
   saveCartItems(cartItems.innerHTML);
 };
@@ -87,15 +89,7 @@ const appendItens = async () => {
   });
 };
 
-// const addItemLocalOnCart = (item) => {
-//   const itemCart = createCartItemElement(item);
-//   cartItems.appendChild(itemCart);
-// };
-
 const addCartItemsOfStorage = () => {
-  // const storage = localStorage.getItem(idItem);
-  // const storageObj = JSON.parse(storage);
-  // storageObj.forEach((item) => addItemLocalOnCart(item));
   const memoria = getSavedCartItems();
   cartItems.innerHTML = memoria;
 };
