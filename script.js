@@ -1,3 +1,5 @@
+const cartItems = document.querySelector('.cart__items');
+
 const createProductImageElement = (imageSource) => {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -15,8 +17,8 @@ const createCustomElement = (element, className, innerText) => {
 const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').innerText;
 
 const emptyCart = () => {
-  const elements = document.querySelectorAll('.cart__items > *');
   elements.forEach((item) => item.parentNode.removeChild(item));
+  saveCartItems(cartItems.innerHTML);
 };
 
 const addEventButtonCart = () => {
@@ -53,12 +55,12 @@ const sumTotalValor = () => {
 };
 
 const appendCardItens = async (item) => {
-  const cartItems = document.querySelector('.cart__items');
   const idItem = getSkuFromProductItem(item);
   const { id: sku, title: name, price: salePrice } = await fetchItem(idItem);
   const itemCart = createCartItemElement({ sku, name, salePrice });
-  saveCartItems({ sku, name, salePrice });
+  // saveCartItems({ sku, name, salePrice });
   cartItems.appendChild(itemCart);
+  saveCartItems(cartItems.innerHTML);
   sumTotalValor();
 };
 
@@ -85,20 +87,21 @@ const appendItens = async () => {
   });
 };
 
-const addItemLocalOnCart = (item) => {
-  const cartItems = document.querySelector('.cart__items');
-  const itemCart = createCartItemElement(item);
-  cartItems.appendChild(itemCart);
-};
+// const addItemLocalOnCart = (item) => {
+//   const itemCart = createCartItemElement(item);
+//   cartItems.appendChild(itemCart);
+// };
 
-const addCartItemsOfStorage = (idItem) => {
-  const storage = localStorage.getItem(idItem);
-  const storageObj = JSON.parse(storage);
-  storageObj.forEach((item) => addItemLocalOnCart(item));
+const addCartItemsOfStorage = () => {
+  // const storage = localStorage.getItem(idItem);
+  // const storageObj = JSON.parse(storage);
+  // storageObj.forEach((item) => addItemLocalOnCart(item));
+  const memoria = getSavedCartItems();
+  cartItems.innerHTML = memoria;
 };
 
 window.onload = () => {
   appendItens();
   addEventButtonCart();
-  addCartItemsOfStorage('cartItems');
+  addCartItemsOfStorage();
 };
