@@ -14,6 +14,16 @@ const createCustomElement = (element, className, innerText) => {
 
 const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').innerText;
 
+const emptyCart = () => {
+  const elements = document.querySelectorAll('.cart__items > *');
+  elements.forEach((item) => item.parentNode.removeChild(item));
+};
+
+const addEventButtonCart = () => {
+  const btnCart = document.querySelector('.empty-cart');
+  btnCart.addEventListener('click', emptyCart);
+};
+
 const cartItemClickListener = (event) => {
   const element = event.path[0];
   element.parentNode.removeChild(element);
@@ -27,12 +37,29 @@ const createCartItemElement = ({ sku, name, salePrice }) => {
   return li;
 };
 
+const sumTotalValor = () => {
+  // const childs = document.querySelectorAll('.cart__items > *');
+  // childs.forEach((item) => {
+  //   const price = item.innerText
+  //     .split(' ')
+  //     .reduce((totalPrice, e) => {
+  //       if (e.includes('$')) {
+  //         return totalPrice += parseFloat(e.replace('$', ''))
+  //       }
+  //       return totalPrice
+  //     }, 0);
+  //     console.log(price);
+  // })
+};
+
 const appendCardItens = async (item) => {
   const cardItems = document.querySelector('.cart__items');
   const idItem = getSkuFromProductItem(item);
   const { id: sku, title: name, price: salePrice } = await fetchItem(idItem);
   const itemCart = createCartItemElement({ sku, name, salePrice });
+  saveCartItems(itemCart);
   cardItems.appendChild(itemCart);
+  sumTotalValor();
 };
 
 const createProductItemElement = ({ sku, name, image }) => {
@@ -60,4 +87,5 @@ const appendItens = async () => {
 
 window.onload = () => {
   appendItens();
+  addEventButtonCart();
 };

@@ -5,12 +5,12 @@ localStorageSimulator('getItem');
 
 describe('4 - Teste a função getSavedCartItems', () => {
   it('se ao executar getSavedCartItems, o método localStorage.getItem é chamado', () => {
-    getSavedCartItems();
+    getSavedCartItems('cartItems');
     expect(localStorage.getItem).toHaveBeenCalledTimes(1);
   })
 
   it('se ao executar getSavedCartItems, o método localStorage.getItem é chamado com o "cartItems" como parâmetro', () => {
-    getSavedCartItems();
+    getSavedCartItems('cartItems');
     expect(localStorage.getItem).toHaveBeenCalledWith('cartItems');
   })
 });
