@@ -1,19 +1,19 @@
 const cartItems = document.querySelector('.cart__items');
 
-const getValors = () => {
-  const lis = document.querySelectorAll('.cart__item');
-  const valor = []
-  lis.forEach((e) => {
-     const price = e.innerText.split('$')
-     valor.push(parseFloat(price[1]))
-  })
-  return valor;
-};
+// const getValors = () => {
+//   const cartItem = document.querySelectorAll('.cart__item');
+//   const valor = [];
+//   cartItem.forEach((e) => {
+//      const price = e.innerText.split('$');
+//      valor.push(parseFloat(price[1]));
+//   });
+//   return valor;
+// };
 
 const sumTotalValor = () => {
-  const allPrices = getValors();
-  const totalPrice = allPrices.reduce(( total, price) => total + price);
-  console.log(totalPrice);
+  // const allPrices = getValors();
+  // const totalPrice = allPrices.reduce((total, price) => total + price, 0);
+  // console.log(totalPrice);
 };
 
 const saveAndSum = () => {
