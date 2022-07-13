@@ -1,19 +1,21 @@
 const cartItems = document.querySelector('.cart__items');
+const getCartItems = () => document.querySelectorAll('.cart__item');
 
-// const getValors = () => {
-//   const cartItem = document.querySelectorAll('.cart__item');
-//   const valor = [];
-//   cartItem.forEach((e) => {
-//      const price = e.innerText.split('$');
-//      valor.push(parseFloat(price[1]));
-//   });
-//   return valor;
-// };
+const getValors = () => {
+  const valor = [];
+  getCartItems().forEach((e) => {
+     const price = e.innerText.split('$');
+     valor.push(parseFloat(price[1]));
+  });
+  return valor;
+};
 
 const sumTotalValor = () => {
-  // const allPrices = getValors();
-  // const totalPrice = allPrices.reduce((total, price) => total + price, 0);
-  // console.log(totalPrice);
+  const allPrices = getValors();
+  const totalPrice = allPrices.reduce((total, price) => total + price, 0);
+  console.log(totalPrice);
+  const spanTotalPrice = document.querySelector('.total-price');
+  spanTotalPrice.innerText = totalPrice;
 };
 
 const saveAndSum = () => {
@@ -38,8 +40,7 @@ const createCustomElement = (element, className, innerText) => {
 const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').innerText;
 
 const emptyCart = () => {
-  const elements = document.querySelectorAll('.cart__item');
-  elements.forEach((item) => item.parentNode.removeChild(item));
+  getCartItems().forEach((item) => item.parentNode.removeChild(item));
   saveAndSum();
 };
 
@@ -94,8 +95,7 @@ const appendItens = async () => {
 };
 
 const addEventItemCard = () => {
-  const items = document.querySelectorAll('.cart__item');
-  items.forEach((item) => item.addEventListener('click', cartItemClickListener));
+  getCartItems().forEach((item) => item.addEventListener('click', cartItemClickListener));
 };
 
 const addCartItemsOfStorage = () => {
@@ -118,4 +118,6 @@ window.onload = () => {
   appendItens();
   addEventButtonCart();
   addCartItemsOfStorage();
+  addEventItemCard();
+  sumTotalValor();
 };
