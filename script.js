@@ -1,5 +1,27 @@
 const cartItems = document.querySelector('.cart__items');
 
+// const getValorsOfMemori = () => {
+//   const memo = getSavedCartItems();
+//   const valor = memo
+//     .split(' ')
+//     .filter((price) => {
+//       if (price.includes('$')) {
+//         price.replace('')
+//       }
+//     })
+//   return valor;
+// };
+
+const sumTotalValor = () => {
+  // const test = getValorsOfMemori();
+  // console.log(test);
+};
+
+const saveAndSum = () => {
+  saveCartItems(cartItems.innerHTML);
+  sumTotalValor();
+};
+
 const createProductImageElement = (imageSource) => {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -19,7 +41,7 @@ const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').inn
 const emptyCart = () => {
   const elements = document.querySelectorAll('.cart__item');
   elements.forEach((item) => item.parentNode.removeChild(item));
-  saveCartItems(cartItems.innerHTML);
+  saveAndSum();
 };
 
 const addEventButtonCart = () => {
@@ -30,7 +52,7 @@ const addEventButtonCart = () => {
 const cartItemClickListener = (event) => {
   const element = event.path[0];
   element.parentNode.removeChild(element);
-  saveCartItems(cartItems.innerHTML);
+  saveAndSum();
 };
 
 const createCartItemElement = ({ sku, name, salePrice }) => {
@@ -41,18 +63,12 @@ const createCartItemElement = ({ sku, name, salePrice }) => {
   return li;
 };
 
-const sumTotalValor = () => {
-  
-};
-
 const appendCardItens = async (item) => {
   const idItem = getSkuFromProductItem(item);
   const { id: sku, title: name, price: salePrice } = await fetchItem(idItem);
   const itemCart = createCartItemElement({ sku, name, salePrice });
-  // saveCartItems({ sku, name, salePrice });
   cartItems.appendChild(itemCart);
-  saveCartItems(cartItems.innerHTML);
-  sumTotalValor();
+  saveAndSum();
 };
 
 const createProductItemElement = ({ sku, name, image }) => {
@@ -89,7 +105,17 @@ const addCartItemsOfStorage = () => {
   addEventItemCard();
 };
 
+const loading = () => {
+  const loadingSpan = createCustomElement('span', 'loading', 'carregando...');
+  const sec = document.querySelector('.items');
+  sec.appendChild(loadingSpan);
+  setTimeout(() => {
+    sec.removeChild(loadingSpan);
+  }, 500);
+};
+
 window.onload = () => {
+  loading();
   appendItens();
   addEventButtonCart();
   addCartItemsOfStorage();
